@@ -12,6 +12,7 @@ from anki.utils import ids2str
 from anki.hooks import addHook
 from aqt.webview import AnkiWebView
 
+
 class AnkiLevel:
   
 
@@ -22,20 +23,54 @@ class AnkiLevel:
          mw.form.menuTools.addSeparator()
          mw.form.menuTools.addAction(self.menuAction)
 
-     def generateHTML(self):
-     	 matureCards =  mw.col.db.scalar("select count() from cards where ivl >= 20")
-         int(matureCards)
+     def generateHTML(self, score, level, comment):
+
          #deckname = mw.col.decks.name(self.did).rsplit('::',1)[-1]
          #if saveMode: cols = _wide
          #else: cols = _thin
          self.html  = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n"
-         self.html += "<html><head><title>Anki Kanji Grid</title></head><body bgcolor=\"#FFF\">\n"
-         self.html += "Your Anki Level is<br>\n"
-         self.html += "<b>hello world</b></body></html>\n"
+         self.html += "<html><head><title>Anki Level</title></head><body bgcolor=\"#FFF\">\n"
+         self.html += "<p style=\"font-size:150%;\" style=\"font-family:verdana;\" align=\"center\" font=\"Calibri\">\n"
+         self.html += "Your score is: %s </br> Level: %s </p> <hr>\n" % (score, level)
+         self.html += "<p style=\"font-family:verdana;\" align=\"center\" font=\"Calibri\">\n"
+         self.html += "This is your anki belt</p> <p align=\"center\">\n"
+         self.html += "<img src=\"addons/belts/class_01.gif\" width=\"60\" height=\"30\" /> </br></p>\n"
+         self.html += "<p> %s </p>\n" % (comment)
+         self.html += "<hr><p style=\"font-size:90%;\"> <i>If you have some troubles or sugestion, visit my GitHub page.</i></p>\n"
+         self.html += "</body></html>\n"
+
+     
+     def getComment(self):
+         test = "aaaa"
+         return test
+
+     def getScore(self, matureCards):
+         test = "aaaa"
+         return test
+
+     def getLevel(self, score):
+         test = "aaaa"
+         return test
+     
+     def getComment(self, level):
+         test = "oi"
+         return test
 
      #Method called if "Submit" is clicked
      def displayResult(self):
-         self.generateHTML();
+     	 matureCards =  mw.col.db.scalar("select count() from cards where ivl >= 20")
+         int(matureCards)
+
+         #Get the user score
+         score = self.getScore(matureCards)
+
+         #Get the user level based in score
+         level = self.getLevel(score)
+         
+         #Get a comment for the user level
+     	 comment = self.getComment(level) 
+
+         self.generateHTML(score, level, comment);
 
          self.win = QDialog(mw)
          self.wv = AnkiWebView()
@@ -47,7 +82,7 @@ class AnkiLevel:
 
 
          self.win.setLayout(vl)
-         self.win.resize(500, 400)
+         self.win.resize(300, 320)
          self.win.show()
          return 0
 

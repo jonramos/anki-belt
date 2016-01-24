@@ -13,6 +13,27 @@ from anki.hooks import addHook
 from aqt.webview import AnkiWebView
 
 
+# class 1 = http://s13.postimg.org/5oabse8cj/class_01.gif
+# class 2 = http://s27.postimg.org/amayllfun/class_02.gif
+# class 3 = http://s16.postimg.org/sn648pboh/class_03.gif
+# class 4 = http://s11.postimg.org/qgmeubo1r/class_04.gif
+# class 5 = http://s30.postimg.org/sdlw758hp/class_05.gif
+# class 6 = http://s13.postimg.org/xowsvn5c3/class_06.gif
+# class 7 = http://s27.postimg.org/x7k4a4vwf/class_07.gif
+# class 8 = http://s17.postimg.org/kwglc3djf/class_08.gif
+# class 9 = http://s7.postimg.org/ahkt12snb/class_09.gif
+# class 10 = http://s7.postimg.org/et9eq2zk7/class_10.gif
+# class 11 = http://s7.postimg.org/a63cobc7b/class_11.gif
+# class 12 = http://s7.postimg.org/phd5ox9jb/class_12.gif
+# class 13 = http://s2.postimg.org/l0cmuvqsl/class_13.gif
+# class 15 = http://s2.postimg.org/vboznjihx/class_15.gif
+# class 16 = http://s2.postimg.org/8x7b7bfqd/class_16.gif
+# class 17 = http://s2.postimg.org/5u6l3y0rp/class_17.gif 
+# class 18 = http://s2.postimg.org/7ojflons5/class_18.gif
+globcomment = "" 
+globlevel = 0
+globbelt = "" 
+
 class AnkiLevel:
   
 
@@ -23,70 +44,134 @@ class AnkiLevel:
          mw.form.menuTools.addSeparator()
          mw.form.menuTools.addAction(self.menuAction)
 
-     def generateHTML(self, score, level, comment):
+     def setGloblevel(self, level):
+         global globlevel    
+         globlevel = level
+
+     def setGlobComment(self, comment):
+         global globcomment    
+         globcomment = comment
+
+     def setGlobBelt(self, belt):
+         global globbelt    
+         globbelt = belt
+
+     def generateHTML(self, score):
 
          #deckname = mw.col.decks.name(self.did).rsplit('::',1)[-1]
          #if saveMode: cols = _wide
          #else: cols = _thin
          self.html  = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n"
-         self.html += "<html><head><title>Anki Level</title></head><body bgcolor=\"#FFF\">\n"
+         self.html += "<html><head><title>Anki Level</title></head><body class=\"loader\" bgcolor=\"#FFF\">\n"
          self.html += "<p style=\"font-size:150%;\" style=\"font-family:verdana;\" align=\"center\" font=\"Calibri\">\n"
-         self.html += "Your score is: %s </br> Level: %s </p> <hr>\n" % (score, level)
+         self.html += "Your score is: %s </br> Level: %s </p> <hr>\n" % (score, globlevel)
          self.html += "<p style=\"font-family:verdana;\" align=\"center\" font=\"Calibri\">\n"
          self.html += "This is your anki belt</p> <p align=\"center\">\n"
-         self.html += "<img src=\"addons/belts/class_01.gif\" width=\"60\" height=\"30\" /> </br></p>\n"
-         self.html += "<p> %s </p>\n" % (comment)
+         self.html += "<img src=\" %s \" width=\"40\" height=\"20\" /></br></p>\n" % (globbelt)
+         self.html += "<p> %s </p>\n" % (globcomment)
          self.html += "<hr><p style=\"font-size:90%;\"> <i>If you have some troubles or sugestion, visit my GitHub page.</i></p>\n"
          self.html += "</body></html>\n"
 
-     
-     def getComment(self):
-         test = "aaaa"
-         return test
-
-     def getScore(self, matureCards):
-         test = "aaaa"
-         return test
-
-     def getLevel(self, score):
-         test = "aaaa"
-         return test
-     
-     def getComment(self, level):
-         test = "oi"
-         return test
+     def getScore(self):
+         score =  mw.col.db.scalar("select count() from cards where ivl >= 20")
+         int(score)
+         if score <= 125:
+            self.setGloblevel(1)
+            self.setGlobComment("")
+            self.setGlobBelt("http://s13.postimg.org/5oabse8cj/class_01.gif")
+         elif score >= 126 and score <= 250:
+            self.setGloblevel(2)
+            self.setGlobComment("Nice! You are now level 2. Try adding more cards to grow up!")
+            self.setGlobBelt("http://s27.postimg.org/amayllfun/class_02.gif")
+         elif score >= 251 and score <= 400:
+            self.setGloblevel(3)
+            self.setGlobComment("")
+            self.setGlobBelt("http://s16.postimg.org/sn648pboh/class_03.gif")
+         elif score >= 401 and score <= 550:
+            self.setGloblevel(4)
+            self.setGlobComment("test")
+            self.setGlobBelt("http://s11.postimg.org/qgmeubo1r/class_04.gif")
+         elif score >= 551 and score <= 800:
+            self.setGloblevel(5)
+            self.setGlobComment("")
+            self.setGlobBelt("http://s30.postimg.org/sdlw758hp/class_05.gif")
+         elif score >= 801 and score <= 1000:
+            self.setGloblevel(6)
+            self.setGlobComment("")
+            self.setGlobBelt("http://s13.postimg.org/xowsvn5c3/class_06.gif")
+         elif score >= 1001 and score <= 1250:
+            self.setGloblevel(7)
+            self.setGlobComment("")
+            self.setGlobBelt("http://s27.postimg.org/x7k4a4vwf/class_07.gif")
+         elif score >= 1251 and score <= 1500:
+            self.setGloblevel(8)
+            self.setGlobComment("")
+            self.setGlobBelt("http://s17.postimg.org/kwglc3djf/class_08.gif")
+         elif score >= 1501 and score <= 1750:
+            self.setGloblevel(9)
+            self.setGlobComment("")
+            self.setGlobBelt("http://s7.postimg.org/ahkt12snb/class_09.gif")
+         elif score >= 1751 and score <= 2000:
+            self.setGloblevel(10)
+            self.setGlobComment("")
+            self.setGlobBelt("http://s7.postimg.org/et9eq2zk7/class_10.gif")
+         elif score >= 2001 and score <= 2300:
+            self.setGloblevel(11)
+            self.setGlobComment("")
+            self.setGlobBelt("http://s7.postimg.org/a63cobc7b/class_11.gif")
+         elif score >= 2301 and score <= 2600:
+            self.setGloblevel(12)
+            self.setGlobComment("")
+            self.setGlobBelt("http://s7.postimg.org/phd5ox9jb/class_12.gif")
+         elif score >= 2601 and score <= 3000:
+            self.setGloblevel(13)
+            self.setGlobComment("")
+            self.setGlobBelt("http://s2.postimg.org/l0cmuvqsl/class_13.gif")
+         elif score >= 3001 and score <= 3400:
+            self.setGloblevel(14)
+            self.setGlobComment("")
+            self.setGlobBelt("http://s17.postimg.org/70wwb8csb/class_14.gif")
+         elif score >= 3401 and score <= 3800:
+            self.setGloblevel(15)
+            self.setGlobComment("")
+            self.setGlobBelt("http://s2.postimg.org/vboznjihx/class_15.gif")
+         elif score >= 3801 and score <= 4200:
+            self.setGloblevel(16)  
+            self.setGlobComment("")
+            self.setGlobBelt("http://s2.postimg.org/8x7b7bfqd/class_16.gif")          
+         elif score >= 4201 and score <= 5000:
+            self.setGloblevel(17)
+            self.setGlobComment("Almost there... The final level is ")
+            self.setGlobBelt("http://s2.postimg.org/5u6l3y0rp/class_17.gif")
+         elif score >= 5001:
+            self.setGloblevel(18)
+            self.setGlobComment("You are king now. You reached the max level! Congrats!!!!")
+            self.setGlobBelt("http://s2.postimg.org/7ojflons5/class_18.gif")
+         return score
 
      #Method called if "Submit" is clicked
      def displayResult(self):
-     	 matureCards =  mw.col.db.scalar("select count() from cards where ivl >= 20")
-         int(matureCards)
+      
+       #Get the user score
+       score = self.getScore()
+      
+       self.generateHTML(score);
 
-         #Get the user score
-         score = self.getScore(matureCards)
+       self.win = QDialog(mw)
+       self.wv = AnkiWebView()
+       vl = QVBoxLayout()
+       vl.setMargin(0)
 
-         #Get the user level based in score
-         level = self.getLevel(score)
-         
-         #Get a comment for the user level
-     	 comment = self.getComment(level) 
-
-         self.generateHTML(score, level, comment);
-
-         self.win = QDialog(mw)
-         self.wv = AnkiWebView()
-         vl = QVBoxLayout()
-         vl.setMargin(0)
-
-         vl.addWidget(self.wv)
-         self.wv.stdHtml(self.html)
+       vl.addWidget(self.wv)
+       self.wv.stdHtml(self.html)
 
 
-         self.win.setLayout(vl)
-         self.win.resize(300, 320)
-         self.win.show()
-         return 0
+       self.win.setLayout(vl)
+       self.win.resize(300, 320)
+       self.win.show()
+       return 0
 
-     #This funcion is not used in 1.x.x version
+     #This funcion will not used in 1.x.x version
      def mainFunction(self):
        
        #Create the main Dialog Box

@@ -102,4 +102,4 @@ Anki is a free and open-source program which makes remembering things easy. Beca
 If you find some bugs or you have some tips, you can open a issue or send me an email.
 
 <b> These belts are familiar...</b></br> 
-Perhaps, if you are a old BMO online gamer, these certainly are familiar. This plugin is also a tribute to this game (currently closed).
+Perhaps, if you are a old BMO online player, these certainly are familiar. This plugin is also a tribute to this game (currently closed).
